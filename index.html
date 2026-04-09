@@ -602,54 +602,59 @@ document.getElementById("resumen").innerHTML=html;
 }
 
 function confirmar(){
+function confirmar() {
+    let nombre = document.getElementById("nombre").value.trim();
+    let direccion = document.getElementById("direccion").value.trim();
+    let telefono = document.getElementById("telefono").value.trim();
 
-let nombre=document.getElementById("nombre").value;
-let direccion=document.getElementById("direccion").value;
-let telefono=document.getElementById("telefono").value;
+    if (!nombre || !direccion || !telefono) {
+        alert("Complete los datos");
+        return;
+    }
 
-if(!nombre || !direccion || !telefono ){
-alert("Complete los datos");
-return;
+    // Guardar datos localmente
+    localStorage.setItem("nombre", nombre);
+    localStorage.setItem("direccion", direccion);
+    localStorage.setItem("telefono", telefono);
+
+    // Construir mensaje de pedido
+    let msg = "Nuevo pedido:\n\n";
+
+    carrito.forEach(p => {
+        msg += `${p.name} x${p.cant}\n`;
+    });
+
+    const total = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
+    msg += `\nTotal: $${total}\n\n`;
+    msg += `Nombre: ${nombre}\n`;
+    msg += `Dirección: ${direccion}\n`;
+    msg += `Teléfono: ${telefono}`;
+
+    // Abrir WhatsApp con URL segura
+    const url = "https://wa.me/5358026803?text=" + encodeURIComponent(msg);
+    window.open(url);
+
+    // Limpiar carrito y UI
+    carrito = [];
+    calcular();
+    actualizarCarritoUI();
+    cerrarModal();
 }
 
-localStorage.setItem("nombre",nombre);
-localStorage.setItem("direccion",direccion);
-localStorage.setItem("telefono",telefono);
+// Cerrar modal al hacer clic fuera
+window.onclick = function(e) {
+    let modal = document.getElementById("modal");
+    if (e.target == modal) {
+        modal.style.display = "none";
+    }
+};
 
-let msg="Nuevo pedido:%0A%0A";
-
-carrito.forEach(p=>{
-msg+=p.name+" x"+p.cant+"%0A";
-});
-
-msg+="%0ATotal: $"+carrito.reduce((t,p)=>t+p.precio*p.cant,0);
-
-msg+="%0A%0ANombre: "+nombre;
-msg+="%0ADirección: "+direccion;
-msg+="%0ATeléfono: "+telefono;
-
-window.location.href = "https://wa.me/123456789?text="+msg);
-
-carrito=[];
-calcular();
-actualizarCarritoUI();
-cerrarModal();
-
-}
-
-window.onclick=function(e){
-let modal=document.getElementById("modal");
-if(e.target==modal){
-modal.style.display="none";
-}
-}
-
-window.onload=function(){
-document.getElementById("nombre").value=localStorage.getItem("nombre")||"";
-document.getElementById("direccion").value=localStorage.getItem("direccion")||"";
-document.getElementById("telefono").value=localStorage.getItem("telefono")||"";
-}
-
+// Cargar datos guardados al iniciar
+window.onload = function() {
+    document.getElementById("nombre").value = localStorage.getItem("nombre") || "";
+    document.getElementById("direccion").value = localStorage.getItem("direccion") || "";
+    document.getElementById("telefono").value = localStorage.getItem("telefono") || "";
+};
 </script>
 
 </body>

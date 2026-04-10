@@ -601,7 +601,7 @@ html+=p.name+" x"+p.cant+"<br>";
 document.getElementById("resumen").innerHTML=html;
 }
 
-function confirmar(){
+function confirmar() {
 
     let nombre = document.getElementById("nombre").value.trim();
     let direccion = document.getElementById("direccion").value.trim();
@@ -612,50 +612,55 @@ function confirmar(){
         return;
     }
 
-    // Guardar datos localmente
+    // Guardar datos
     localStorage.setItem("nombre", nombre);
     localStorage.setItem("direccion", direccion);
     localStorage.setItem("telefono", telefono);
 
-    // Construir mensaje de pedido
-    let msg = "Nuevo pedido:\n\n";
+    // Construir pedido
+    let pedido = "";
 
     carrito.forEach(p => {
-        msg += `${p.name} x${p.cant}\n`;
+        pedido += `${p.name} x${p.cant}\n`;
     });
 
-    const total = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
-    msg += `\nTotal: $${total}\n\n`;
-    msg += `Nombre: ${nombre}\n`;
-    msg += `Dirección: ${direccion}\n`;
-    msg += `Teléfono: ${telefono}`;
+    let total = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
+    pedido += `\nTotal: $${total}`;
 
-    // Abrir WhatsApp con URL segura
-    const url = "https://wa.me/5358026803?text=" + encodeURIComponent(msg);
-    window.open(url);
+    // Enviar con EmailJS
+    emailjs.send("service_6pj1ykg", "template_g94in6o", {
+        nombre: nombre,
+        direccion: direccion,
+        telefono: telefono,
+        pedido: pedido
+    })
+    .then(function(response) {
 
-    // Limpiar carrito y UI
-    carrito = [];
-    calcular();
-    actualizarCarritoUI();
-    cerrarModal();
+        // ✅ Notificación REAL
+        alert("✅ Pedido enviado correctamente");
+
+        carrito = [];
+        calcular();
+        actualizarCarritoUI();
+        cerrarModal();
+
+    }, function(error) {
+
+        alert("❌ Error al enviar pedido");
+        console.log(error);
+
+    });
 }
+</script>
+ <!-- llave publica de email-->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
-// Cerrar modal al hacer clic fuera
-window.onclick = function(e) {
-    let modal = document.getElementById("modal");
-    if (e.target == modal) {
-        modal.style.display = "none";
-    }
-};
-
-// Cargar datos guardados al iniciar
-window.onload = function() {
-    document.getElementById("nombre").value = localStorage.getItem("nombre") || "";
-    document.getElementById("direccion").value = localStorage.getItem("direccion") || "";
-    document.getElementById("telefono").value = localStorage.getItem("telefono") || "";
-};
+<script>
+(function(){
+    emailjs.init("GlbEsB6Mij-MWkmHi");
+})();
 </script>
 
+ 
 </body>
 </html>

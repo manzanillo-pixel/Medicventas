@@ -642,7 +642,7 @@ function confirmar() {
         carrito = [];
         calcular();
         actualizarCarritoUI();
-      resetearCantidades(); // 👈 ESTA ES LA CLAVE
+      
         cerrarModal();
 
     }, function(error) {
@@ -651,10 +651,7 @@ function confirmar() {
         console.log(error);
 
     });
- function resetearCantidades() {
-    document.querySelectorAll("id="cant${p.id}").forEach(el => {
-        el.innerText = "0";
-    });
+ 
 }
 
  function mostrarNotificacion(msg, tipo="ok") {

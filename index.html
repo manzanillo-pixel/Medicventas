@@ -642,7 +642,7 @@ function confirmar() {
         carrito = [];
         calcular();
         actualizarCarritoUI();
-      
+        resetearCantidades(); // 👈 ESTO ARREGLA TODO
         cerrarModal();
 
     }, function(error) {
@@ -652,6 +652,11 @@ function confirmar() {
 
     });
  
+}
+ function resetearCantidades() {
+    document.querySelectorAll("[id^='cant']").forEach(el => {
+        el.innerText = "0";
+    });
 }
 
  function mostrarNotificacion(msg, tipo="ok") {

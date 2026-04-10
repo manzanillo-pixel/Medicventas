@@ -637,7 +637,7 @@ function confirmar() {
     .then(function(response) {
 
         // ✅ Notificación REAL
-        alert("✅ Pedido enviado correctamente");
+        mostrarNotificacion("✅ Pedido enviado correctamente");
 
         carrito = [];
         calcular();
@@ -646,10 +646,40 @@ function confirmar() {
 
     }, function(error) {
 
-        alert("❌ Error al enviar pedido");
+        mostrarNotificacion("❌ Error al enviar pedido", "error");
         console.log(error);
 
     });
+
+ function mostrarNotificacion(msg, tipo="ok") {
+    let div = document.createElement("div");
+
+    div.innerText = msg;
+
+    div.style.position = "fixed";
+    div.style.bottom = "20px";
+    div.style.left = "50%";
+    div.style.transform = "translateX(-50%)";
+    div.style.padding = "14px 22px";
+    div.style.borderRadius = "10px";
+    div.style.color = "#fff";
+    div.style.fontSize = "16px";
+    div.style.zIndex = "9999";
+    div.style.boxShadow = "0 4px 10px rgba(0,0,0,0.3)";
+
+    // Colores
+    if (tipo === "ok") {
+        div.style.background = "#28a745"; // verde
+    } else {
+        div.style.background = "#dc3545"; // rojo
+    }
+
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+        div.remove();
+    }, 3000);
+}
 }
 </script>
  <!-- llave publica de email-->

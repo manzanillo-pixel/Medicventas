@@ -643,14 +643,12 @@ function confirmar() {
     pedido += `\nTeléfono: ${telefono}`;
 
     // 🚀 Enviar con EmailJS
-    emailjs.send("service_6pj1ykg", "template_g94in6o", {
-        nombre: nombre,
-        direccion: direccion,
-        telefono: telefono,
-        pedido: pedido
-        envio: envio
-        total: total
-    })
+   emailjs.send("service_6pj1ykg", "template_g94in6o", {
+    nombre: nombre,
+    direccion: direccion,
+    telefono: telefono,
+    pedido: pedido
+})
     .then(function(response) {
 
         mostrarNotificacion("✅ Pedido enviado correctamente");

@@ -619,33 +619,31 @@ function confirmar() {
     let telefono = document.getElementById("telefono").value.trim();
     let envio = parseInt(document.getElementById("zona").value) || 0;
 
-    let totalProductos = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
-    let totalFinal = totalProductos + envio;
-
-    pedido += `\nEnvío: $${envio}`;
-    pedido += `\nTotal final: $${totalFinal}`;
-    if (!nombre || !direccion || !telefono || !envio) {
-        alert("Complete los datos");
+    if (!nombre || !direccion || !telefono || envio === 0) {
+        alert("Complete los datos y seleccione zona");
         return;
     }
 
-    // Guardar datos
-    localStorage.setItem("nombre", nombre);
-    localStorage.setItem("direccion", direccion);
-    localStorage.setItem("telefono", telefono);
-
-    // Construir pedido
-    let pedido = "";
+    // 🧾 Crear pedido correctamente
+    let pedido = "Nuevo pedido:\n\n";
 
     carrito.forEach(p => {
         pedido += `${p.name} x${p.cant}\n`;
     });
 
-    let total = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
-    pedido += `\nTotal: $${total}`;
+    let totalProductos = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
+    let totalFinal = totalProductos + envio;
 
-    // Enviar con EmailJS
-    emailjs.send("service_6pj1ykg", "template_g94in6o", {
+    pedido += `\nTotal productos: $${totalProductos}`;
+    pedido += `\nEnvío: $${envio}`;
+    pedido += `\nTotal final: $${totalFinal}`;
+
+    pedido += `\n\nNombre: ${nombre}`;
+    pedido += `\nDirección: ${direccion}`;
+    pedido += `\nTeléfono: ${telefono}`;
+
+    // 🚀 Enviar con EmailJS
+    emailjs.send("TU_SERVICE_ID", "TU_TEMPLATE_ID", {
         nombre: nombre,
         direccion: direccion,
         telefono: telefono,
@@ -653,22 +651,20 @@ function confirmar() {
     })
     .then(function(response) {
 
-        // ✅ Notificación REAL
         mostrarNotificacion("✅ Pedido enviado correctamente");
 
         carrito = [];
         calcular();
         actualizarCarritoUI();
-        resetearCantidades(); // 👈 ESTO ARREGLA TODO
+        resetearCantidades();
         cerrarModal();
 
     }, function(error) {
 
-        mostrarNotificacion("❌ Error al enviar pedido no tienes conexion", "error");
+        mostrarNotificacion("❌ Error al enviar pedido", "error");
         console.log(error);
 
     });
- 
 }
  function resetearCantidades() {
     document.querySelectorAll("[id^='cant']").forEach(el => {

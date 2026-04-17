@@ -659,9 +659,12 @@ function confirmar() {
         calcular();
         actualizarCarritoUI();
         resetearCantidades();
-        actualizarTotal()
-    
-        document.getElementById("zona").value = "0"; // 👈 RESET ZONA
+       // reset zona
+    document.getElementById("zona").value = "0";
+
+    // 🔥 FORZAR UI
+    resetearTotalesUI();
+
         cerrarModal();
 
     }, function(error) {
@@ -675,6 +678,10 @@ function confirmar() {
     document.querySelectorAll("[id^='cant']").forEach(el => {
         el.innerText = "0";
     });
+}
+ function resetearTotalesUI() {
+    document.getElementById("envio").innerText = "0";
+    document.getElementById("totalFinal").innerText = "0";
 }
  function actualizarTotal() { //actualiza total de compra + mensajeria
 

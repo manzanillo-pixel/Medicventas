@@ -295,6 +295,8 @@ to{opacity:1;}
 
 <div class="carrito">
 <div id="total">Total: $0</div>
+ <p>Mensajeria: $<span id="envio">0</span></p>
+<p><strong>Total final: $<span id="totalFinal">0</span></strong></p>
 <button onclick="abrirModal()">Enviar pedido por WhatsApp</button>
 </div>
 
@@ -308,6 +310,14 @@ to{opacity:1;}
 <input id="nombre" placeholder="Nombre">
 <input id="direccion" placeholder="Dirección">
 <input id="telefono" placeholder="Teléfono">
+ <label>Zona de entrega:</label>
+
+<select id="zona" onchange="actualizarTotal()">
+  <option value="0">Seleccione zona</option>
+  <option value="200">Centro ($200)</option>
+  <option value="300">Habana Vieja ($300)</option>
+  <option value="500">Playa ($500)</option>
+</select>
 
 <div style="display:flex; gap:10px; margin-top:10px;">
 <button onclick="cerrarModal()" style="flex:1;">Cancelar</button>
@@ -498,6 +508,7 @@ carrito.push({...p, cant:1});
 actualizarCantidad(id);
 calcular();
 actualizarCarritoUI();
+ actualizarTotal();
 
 }
 function restar(id){
@@ -515,7 +526,7 @@ carrito = carrito.filter(x => x.id !== id);
 actualizarCantidad(id);
 calcular();
 actualizarCarritoUI();
-
+actualizarTotal();
 }
 
 function actualizarCantidad(id){
@@ -606,8 +617,14 @@ function confirmar() {
     let nombre = document.getElementById("nombre").value.trim();
     let direccion = document.getElementById("direccion").value.trim();
     let telefono = document.getElementById("telefono").value.trim();
+    let envio = parseInt(document.getElementById("zona").value) || 0;
 
-    if (!nombre || !direccion || !telefono) {
+    let totalProductos = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
+    let totalFinal = totalProductos + envio;
+
+    pedido += `\nEnvío: $${envio}`;
+    pedido += `\nTotal final: $${totalFinal}`;
+    if (!nombre || !direccion || !telefono || !envio) {
         alert("Complete los datos");
         return;
     }
@@ -657,6 +674,17 @@ function confirmar() {
     document.querySelectorAll("[id^='cant']").forEach(el => {
         el.innerText = "0";
     });
+}
+ function actualizarTotal() { //actualiza total de compra + mensajeria
+
+    let envio = parseInt(document.getElementById("zona").value) || 0;
+
+    let totalProductos = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
+
+    let totalFinal = totalProductos + envio;
+
+    document.getElementById("envio").innerText = envio;
+    document.getElementById("totalFinal").innerText = totalFinal;
 }
 
  function mostrarNotificacion(msg, tipo="ok") {

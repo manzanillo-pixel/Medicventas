@@ -249,7 +249,98 @@ border-radius:10px;
 from{opacity:0;}
 to{opacity:1;}
 }
+/* Fondo oscuro suave */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Tarjeta blanca */
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+
+    animation: aparecer 0.3s ease;
+}
+
+/* Animación */
+@keyframes aparecer {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Título */
+.modal-content h2 {
+    margin-bottom: 15px;
+}
+
+/* Inputs tipo Google */
+.modal-content input,
+.modal-content select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+
+    border: none;
+    border-bottom: 2px solid #ccc;
+
+    outline: none;
+    font-size: 14px;
+}
+
+/* Focus estilo Google */
+.modal-content input:focus,
+.modal-content select:focus {
+    border-bottom: 2px solid #1a73e8;
+}
+
+/* Resumen */
+.resumen {
+    margin: 10px 0;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* Botón */
+.btn-confirmar {
+    width: 100%;
+    padding: 12px;
+
+    background: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.btn-confirmar:hover {
+    background: #1669c1;
+}
 </style>
 </head>
 
@@ -301,37 +392,39 @@ to{opacity:1;}
 </div>
 
 <!-- MODAL -->
-<div id="modal">
-<div class="modal-content">
+ <div id="modal" class="modal">
 
-<h3>Resumen</h3>
-<div id="resumen"></div>
+  <div class="modal-content">
 
-<input id="nombre" placeholder="Nombre">
-<input id="direccion" placeholder="Dirección">
-<input id="telefono" placeholder="Teléfono">
- <label>Zona de entrega:</label>
+    <h2>Finalizar pedido</h2>
 
-<select id="zona" onchange="actualizarTotal()">
-  <option value="0">Seleccione zona</option>
-  <option value="100">Centro del pueblo ($100)</option>
-  <option value="200">Horacio Rodriguez  ($200)</option>
-  <option value="200">ICP ($200)</option>
- <option value="200">LA Pesquera ($200)</option>
- <option value="200"> Caymari loma ($200)</option>
- <option value="100"> Caymari llano ($100)</option>
- <option value="150"> Rpto Céspedes llano ($150)</option>
- <option value="200"> Rpto Céspedes Loma ($200)</option>
-</select>
+    <label>Nombre</label>
+    <input type="text" id="nombre" placeholder="Tu nombre">
 
-<div style="display:flex; gap:10px; margin-top:10px;">
-<button onclick="cerrarModal()" style="flex:1;">Cancelar</button>
-<button onclick="confirmar()" style="flex:1; background:#25D366; color:white;">Confirmar</button>
+    <label>Dirección</label>
+    <input type="text" id="direccion" placeholder="Tu dirección">
+
+    <label>Teléfono</label>
+    <input type="text" id="telefono" placeholder="Tu teléfono">
+
+    <label>Zona de entrega</label>
+    <select id="zona" onchange="actualizarTotal()">
+      <option value="0">Seleccione zona</option>
+      <option value="200">Centro ($200)</option>
+      <option value="300">Habana Vieja ($300)</option>
+      <option value="500">Playa ($500)</option>
+    </select>
+
+    <div class="resumen">
+      <p>Envío: $<span id="envio">0</span></p>
+      <p class="total">Total: $<span id="totalFinal">0</span></p>
+    </div>
+
+    <button class="btn-confirmar" onclick="confirmar()">Confirmar pedido</button>
+
+  </div>
+
 </div>
-
-</div>
-</div>
-
 <script>
 
 let productos=[
@@ -597,6 +690,7 @@ render(productos.filter(p=>p.cat==cat));
 }
 
 function abrirModal(){
+ document.getElementById("modal").style.display = "flex";
 if(carrito.length==0){
 alert("Agregue productos");
 return;
@@ -606,7 +700,7 @@ document.getElementById("modal").style.display="block";
 }
 
 function cerrarModal(){
-document.getElementById("modal").style.display="none";
+document.getElementById("modal").style.display = "none";;
 }
 
 function actualizarResumen(){

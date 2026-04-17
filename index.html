@@ -648,6 +648,8 @@ function confirmar() {
         direccion: direccion,
         telefono: telefono,
         pedido: pedido
+        envio: envio
+        total: total
     })
     .then(function(response) {
 
@@ -657,6 +659,7 @@ function confirmar() {
         calcular();
         actualizarCarritoUI();
         resetearCantidades();
+        document.getElementById("zona").value = "0"; // 👈 RESET ZONA
         cerrarModal();
 
     }, function(error) {

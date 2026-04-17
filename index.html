@@ -314,9 +314,11 @@ to{opacity:1;}
 
 <select id="zona" onchange="actualizarTotal()">
   <option value="0">Seleccione zona</option>
-  <option value="200">Centro ($200)</option>
-  <option value="300">Habana Vieja ($300)</option>
-  <option value="500">Playa ($500)</option>
+  <option value="200">Centro del pueblo ($100)</option>
+  <option value="300">Horacio Rodriguez  ($200)</option>
+  <option value="500">ICP ($200)</option>
+ <option value="500">LA Pesquera ($200)</option>
+ <option value="500"> Caymari ($200)</option>
 </select>
 
 <div style="display:flex; gap:10px; margin-top:10px;">
@@ -657,7 +659,9 @@ function confirmar() {
         calcular();
         actualizarCarritoUI();
         resetearCantidades();
-        document.getElementById("zona").value = "0"; // 👈 RESET ZONA
+        actualizarTotal()
+     actualizarEnvio()
+       // document.getElementById("zona").value = "0"; // 👈 RESET ZONA
         cerrarModal();
 
     }, function(error) {

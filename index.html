@@ -691,16 +691,16 @@ render(productos.filter(p=>p.cat==cat));
 }
 
 function abrirModal(){
- document.getElementById("modal").style.display = "flex";
-if(carrito.length==0){
-alert("Agregue productos");
-return;
-}
-   
-    
-actualizarResumen();
-document.getElementById("modal").style.display="block";
-    
+
+    if(carrito.length == 0){
+        alert("Agregue productos");
+        return;
+    }
+
+    document.getElementById("modal").style.display = "flex";
+
+    actualizarResumen();
+    actualizarTotal(); // 👈 ESTA ES LA CLAVE QUE TE FALTA
 }
 
 function cerrarModal(){
@@ -800,7 +800,7 @@ function confirmar() {
     document.getElementById("envio").innerText = envio;
     document.getElementById("totalFinal").innerText = totalFinal;
 }
-}
+
 
  function mostrarNotificacion(msg, tipo="ok") {
     let div = document.createElement("div");

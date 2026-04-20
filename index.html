@@ -737,6 +737,8 @@ function abrirModal(){
 
     actualizarResumen();
     actualizarTotal(); // 👈 ESTA ES LA CLAVE QUE TE FALTA
+    window.location.hash = "modal_abierto";
+
 }
 
 function cerrarModal(){

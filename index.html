@@ -696,9 +696,11 @@ if(carrito.length==0){
 alert("Agregue productos");
 return;
 }
+    actializarTotal();
+    
 actualizarResumen();
 document.getElementById("modal").style.display="block";
-    actualizarTotal();
+    
 }
 
 function cerrarModal(){

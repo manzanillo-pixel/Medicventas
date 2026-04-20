@@ -619,6 +619,7 @@ existente.cant--;
 
 if(existente.cant <= 0){
 carrito = carrito.filter(x => x.id !== id);
+    
 }
 
 actualizarCantidad(id);
@@ -697,6 +698,7 @@ return;
 }
 actualizarResumen();
 document.getElementById("modal").style.display="block";
+    actualizarTotal();
 }
 
 function cerrarModal(){
@@ -780,16 +782,22 @@ function confirmar() {
     document.getElementById("envio").innerText = "0";
     document.getElementById("totalFinal").innerText = "0";
 }
- function actualizarTotal() { //actualiza total de compra + mensajeria
+ function actualizarTotal() {
 
-    let envio = parseInt(document.getElementById("zona").value) || 0;
+    let envio = parseInt(document.getElementById("zona").value);
+    if (isNaN(envio)) envio = 0;
 
-    let totalProductos = carrito.reduce((t, p) => t + p.precio * p.cant, 0);
+    let totalProductos = 0;
+
+    if (carrito && carrito.length > 0) {
+        totalProductos = carrito.reduce((t, p) => t + (p.precio * p.cant), 0);
+    }
 
     let totalFinal = totalProductos + envio;
 
     document.getElementById("envio").innerText = envio;
     document.getElementById("totalFinal").innerText = totalFinal;
+}
 }
 
  function mostrarNotificacion(msg, tipo="ok") {

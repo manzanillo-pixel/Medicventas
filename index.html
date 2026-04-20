@@ -341,6 +341,23 @@ to{opacity:1;}
 .btn-confirmar:hover {
     background: #1669c1;
 }
+    .cerrar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    color: #999;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.cerrar:hover {
+    color: #000;
+}
 </style>
 </head>
 
@@ -427,7 +444,12 @@ to{opacity:1;}
       <option value="200">Rpto Cespedes Loma ($200)</option>
       <option value="300">Valerino ($300)</option>
     </select>
+     
+     <div class="modal-content">
 
+  <span class="cerrar" onclick="cerrarModal()">✕</span>
+
+    
     <div class="resumen">
       <p>Envío: $<span id="envio">0</span></p>
       <p class="total">Total: $<span id="totalFinal">0</span></p>

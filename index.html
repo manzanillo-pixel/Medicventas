@@ -729,7 +729,8 @@ render(productos.filter(p=>p.cat==cat));
 function abrirModal(){
 
     if(carrito.length == 0){
-        alert("Agregue productos");
+        mostrarNotificacion("Agregue productos");
+        console.log(error);
         return;
         
     }
@@ -768,7 +769,8 @@ function confirmar() {
     let envio = parseInt(document.getElementById("zona").value) || 0;
 
     if (!nombre || !direccion || !telefono || envio === 0) {
-        alert("Complete los datos y seleccione zona");
+        mostrarNotificacion("Complete los datos y seleccione zona");
+        console.log(error);
         return;
     }
 

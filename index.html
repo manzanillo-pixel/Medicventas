@@ -769,7 +769,7 @@ function confirmar() {
     let envio = parseInt(document.getElementById("zona").value) || 0;
 
     if (!nombre || !direccion || !telefono || envio === 0) {
-        mostrarNotificacion("Complete los datos y seleccione zona");
+        mostrarNotificacion("Complete los datos y seleccione zona","error");
         console.log(error);
         return;
     }

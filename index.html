@@ -731,13 +731,14 @@ function abrirModal(){
     if(carrito.length == 0){
         alert("Agregue productos");
         return;
+        window.location.hash = "modal_abierto";
     }
 
     document.getElementById("modal").style.display = "flex";
 
     actualizarResumen();
     actualizarTotal(); // 👈 ESTA ES LA CLAVE QUE TE FALTA
-    window.location.hash = "modal_abierto";
+    
 
 }
 

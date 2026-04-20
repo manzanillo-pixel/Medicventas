@@ -729,7 +729,7 @@ render(productos.filter(p=>p.cat==cat));
 function abrirModal(){
 
     if(carrito.length == 0){
-        mostrarNotificacion("Agregue productos");
+        mostrarNotificacion("Agregue productos","warning");
         console.log(warning);
         return;
         

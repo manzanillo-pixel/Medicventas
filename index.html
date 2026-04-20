@@ -797,8 +797,8 @@ function confirmar() {
 
     let totalFinal = totalProductos + envio;
 
-    document.getElementById("envio").innerText = envio;
-    document.getElementById("totalFinal").innerText = totalFinal;
+    document.querySelectorAll("#envio").forEach(el => el.innerText = envio);
+document.querySelectorAll("#totalFinal").forEach(el => el.innerText = totalFinal);
 }
 
 

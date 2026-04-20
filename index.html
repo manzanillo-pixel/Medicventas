@@ -359,6 +359,45 @@ to{opacity:1;}
 .cerrar:hover {
     color: #000;
 }
+    /*boton de whatsapp definitivo*/
+    .btn-wsp {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background: #25D366;
+    color: white;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 28px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+
+    cursor: pointer;
+
+    z-index: 9999;
+
+    animation: flotar 2s infinite ease-in-out;
+}
+
+/* Animación */
+@keyframes flotar {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+    100% { transform: translateY(0); }
+}
+
+.btn-wsp:active {
+    transform: scale(0.9);
+}
 </style>
 </head>
 
@@ -370,6 +409,9 @@ to{opacity:1;}
 <p>Pedidos por WhatsApp</p>
 </div>
 <div class="cart-icon" id="cartCount">0</div>
+    <a href="#" onclick="abrirWhatsApp()" class="btn-wsp">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="30">
+</a>
 </header>
 
 <div class="search">
@@ -847,7 +889,28 @@ function confirmar() {
     document.querySelectorAll("#envio").forEach(el => el.innerText = envio);
 document.querySelectorAll("#totalFinal").forEach(el => el.innerText = totalFinal);
 }
+function abrirWhatsApp() {
 
+    let numero = "5358026803"; // tu número
+
+    let mensaje = encodeURIComponent("Hola, necesito información sobre los medicamentos");
+
+    let urlApp = `whatsapp://send?phone=${numero}&text=${mensaje}`;
+    let urlWeb = `https://wa.me/${numero}?text=${mensaje}`;
+
+    // 🔥 Detectar si es Android / APK
+    if (navigator.userAgent.toLowerCase().includes("android")) {
+        window.location.href = urlApp;
+
+        // fallback si falla
+        setTimeout(() => {
+            window.open(urlWeb, "_blank");
+        }, 1500);
+
+    } else {
+        window.open(urlWeb, "_blank");
+    }
+}
 
  function mostrarNotificacion(msg, tipo="ok") {
     let div = document.createElement("div");
@@ -877,6 +940,7 @@ document.querySelectorAll("#totalFinal").forEach(el => el.innerText = totalFinal
     setTimeout(() => {
         div.remove();
     }, 4000);
+     
 }
 
 </script>

@@ -731,9 +731,9 @@ function abrirModal(){
     if(carrito.length == 0){
         alert("Agregue productos");
         return;
-        window.location.hash = "modal_abierto";
+        
     }
-
+    window.location.hash = "modal_abierto";
     document.getElementById("modal").style.display = "flex";
 
     actualizarResumen();
@@ -741,6 +741,12 @@ function abrirModal(){
     
 
 }
+    // 2. Escuchamos cuando el usuario presiona "Atrás" en el celular
+window.onhashchange = function() {
+    if (window.location.hash !== "#pedido") {
+        document.getElementById("modal").style.display = "none";
+    }
+};
 
 function cerrarModal(){
 document.getElementById("modal").style.display = "none";
